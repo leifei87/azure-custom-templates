@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Simple template for create a basic VM",
+  "description": "This template will deploy a basic VM, using the specified image Publish/Offer/Sku from gallery.",
+  "summary": "This template will deploy a basic VM, using the specified image Publish/Offer/Sku from gallery.",
+  "githubUsername": "leifei87",
+  "dateUpdated": "2019-01-09"
+}

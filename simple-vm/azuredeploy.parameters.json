@@ -1,0 +1,24 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "value": "andytestrmvm"
+    },
+    "vmSize": {
+      "value": "Standard_A3"
+    },
+    "imagePublisher": {
+      "value": "Canonical"
+    },
+    "imageOffer": {
+      "value": "UbuntuServer"
+    },
+    "imageSku": {
+      "value": "16.10"
+    },
+    "storageAccountType": {
+      "value": "Standard_LRS"
+    }
+  }
+}
