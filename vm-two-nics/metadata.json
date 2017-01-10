@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Simple template for create a VM with two Nics",
+  "description": "This template will deploy a basic VM with two Nics, using the specified image Publish/Offer/Sku from gallery.",
+  "summary": "This template will deploy a basic VM with two Nics, using the specified image Publish/Offer/Sku from gallery.",
+  "githubUsername": "leifei87",
+  "dateUpdated": "2017-01-09"
+}
