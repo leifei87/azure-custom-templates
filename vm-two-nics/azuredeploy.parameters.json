@@ -3,22 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vmName": {
-      "value": "andytestrmvm"
+      "value": ""
     },
     "vmSize": {
-      "value": "Standard_A3"
+      "value": ""
     },
     "imagePublisher": {
-      "value": "Canonical"
+      "value": ""
     },
     "imageOffer": {
-      "value": "UbuntuServer"
+      "value": ""
     },
     "imageSku": {
-      "value": "16.10"
+      "value": ""
     },
     "storageAccountType": {
-      "value": "Standard_LRS"
+      "value": ""
     }
   }
 }

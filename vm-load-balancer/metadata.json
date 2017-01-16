@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Simple template for create a VM with load balancer",
+  "description": "This template will deploy a basic VM with load balancer, using the specified image Publish/Offer/Sku from gallery.",
+  "summary": "This template will deploy a basic VM with load balancer, using the specified image Publish/Offer/Sku from gallery.",
+  "githubUsername": "leifei87",
+  "dateUpdated": "2017-01-15"
+}
