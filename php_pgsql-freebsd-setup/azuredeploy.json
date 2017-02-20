@@ -34,6 +34,13 @@
       ],
       "metadata": {
         "description": "storage Account Type."
+       }
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/pf-freebsd-setup/",
+      "metadata": {
+        "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
       }
     }
   },
@@ -41,10 +48,10 @@
     "storageAccountName": "[concat(uniquestring(parameters('vmName')), 'storage')]",
     "dataDisk1VhdName": "[concat(uniquestring(parameters('vmName')), 'datadisk1')]",
     "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
-	"vm1Name": "[concat(parameters('vmName'), '-FrontEnd')]",
-	"vm2Name": "[concat(parameters('vmName'), '-PHP1')]",
-	"vm3Name": "[concat(parameters('vmName'), '-PHP2')]",
-	"vm4Name": "[concat(parameters('vmName'), '-PostgreSQL')]",
+    "vm1Name": "[concat(parameters('vmName'), '-FrontEnd')]",
+    "vm2Name": "[concat(parameters('vmName'), '-PHP1')]",
+    "vm3Name": "[concat(parameters('vmName'), '-PHP2')]",
+    "vm4Name": "[concat(parameters('vmName'), '-PostgreSQL')]",
     "imagePublisher": "MicrosoftOSTC",
     "imageOffer": "FreeBSD",
     "nic1Name": "[concat(variables('vm1Name'), 'nic1')]",
@@ -306,11 +313,11 @@
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic1Name'))]",
-			  "properties": { "primary": true }
+              "properties": { "primary": true }
             },
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic2Name'))]",
-			  "properties": { "primary": false }
+              "properties": { "primary": false }
             }
           ]
         },
@@ -465,6 +472,31 @@
           }
         }
       }
-    }	
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm1Name'),'/installreversenginx')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm1Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_reverse_nginx.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'scripts/frontend_nginx.conf')]",
+            "[uri(parameters('_artifactsLocation'), 'scripts/frontend_proxy.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('sh install_reverse_nginx.sh', [reference(concat(variables('nic2Name'),0)).ipConfigurations[0].properties.privateIPAddress], [reference(concat(variables('nic3Name'),0)).ipConfigurations[0].properties.privateIPAddress], [reference(concat(variables('nic5Name'),0)).ipConfigurations[0].properties.privateIPAddress])]"
+        }
+      }
+    }
   ]
 }
