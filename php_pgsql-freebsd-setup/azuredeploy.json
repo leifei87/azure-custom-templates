@@ -38,7 +38,7 @@
     },
     "_artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/pf-freebsd-setup/",
+      "defaultValue": "https://raw.githubusercontent.com/leifei87/azure-quickstart-templates/master/php_pgsql-freebsd-setup/",
       "metadata": {
         "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
       }
@@ -489,12 +489,60 @@
         "settings": {
           "fileUris": [
             "[uri(parameters('_artifactsLocation'), 'scripts/install_reverse_nginx.sh')]",
-            "[uri(parameters('_artifactsLocation'), 'scripts/frontend_nginx.conf')]",
-            "[uri(parameters('_artifactsLocation'), 'scripts/frontend_proxy.conf')]"
+            "[uri(parameters('_artifactsLocation'), 'conf/frontend_nginx.conf')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/frontend_proxy.conf')]"
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('sh install_reverse_nginx.sh', [reference(concat(variables('nic2Name'),0)).ipConfigurations[0].properties.privateIPAddress], [reference(concat(variables('nic3Name'),0)).ipConfigurations[0].properties.privateIPAddress], [reference(concat(variables('nic5Name'),0)).ipConfigurations[0].properties.privateIPAddress])]"
+          "commandToExecute": "[concat('sh install_reverse_nginx.sh ', reference(variables('nic1Name')).ipConfigurations[0].properties.privateIPAddress, ' ', reference(variables('nic3Name')).ipConfigurations[0].properties.privateIPAddress, ' ',reference(variables('nic5Name')).ipConfigurations[0].properties.privateIPAddress)]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm2Name'),'/installnginxphp')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm2Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_nginx_php.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/backend_nginx.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh install_nginx_php.sh"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm3Name'),'/installnginxphp')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm3Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_nginx_php.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/backend_nginx.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh install_nginx_php.sh"
         }
       }
     }
