@@ -5,6 +5,12 @@
     "vmName": {
       "value": ""
     },
+    "adminUsername": {
+      "value": ""
+    },
+    "adminPassword": {
+      "value": ""
+    },    
     "vmSize": {
       "value": ""
     },

@@ -8,6 +8,18 @@
         "description": "Name for the Virtual Machine."
       }
     },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Virtual Machine."
+      }
+    },    
     "vmSize": {
       "type": "string",
       "metadata": {
@@ -48,8 +60,6 @@
     "storageAccountName": "[concat(uniquestring(parameters('vmName')), 'storage')]",
     "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
     "nicName": "[concat(uniquestring(parameters('vmName')), 'nic')]",
-    "adminUsername": "azureuser",
-    "adminPassword": "P@ssw0rd0123",
     "availabilitySetName": "myAvSet",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -263,8 +273,8 @@
         },
         "osProfile": {
           "computerName": "[concat(parameters('vmName'), copyIndex())]",
-          "adminUsername": "[variables('adminUsername')]",
-          "adminPassword": "[variables('adminPassword')]"
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
           "imageReference": {
