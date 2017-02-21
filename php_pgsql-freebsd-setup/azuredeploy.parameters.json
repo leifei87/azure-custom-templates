@@ -5,14 +5,29 @@
     "vmName": {
       "value": ""
     },
+    "adminUsername": {
+      "value": "azureuser"
+    },
+    "adminPassword": {
+      "value": "GEN-PASSWORD"
+    },  
     "vmSize": {
-      "value": ""
+      "value": "Standard_A3"
     },
     "freeBSDOSVersion": {
-      "value": ""
+      "value": "11.0"
     },
     "storageAccountType": {
-      "value": ""
+      "value": "Standard_LRS"
+    },
+    "numberOfDataDisks": {
+      "value": 1
+    },
+    "sizeOfDataDisksInGB": {
+      "value": 100
+    },
+    "diskCaching": {
+      "value": "ReadWrite"
     }
   }
 }
