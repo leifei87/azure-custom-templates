@@ -1157,6 +1157,79 @@
           }
         }
       }
-    }	
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm1Name'),'/installreversenginx')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm1Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_reverse_nginx.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/frontend_nginx.conf')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/frontend_proxy.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('sh install_reverse_nginx.sh ', reference(variables('nic1Name')).ipConfigurations[0].properties.privateIPAddress, ' ', reference(variables('nic3Name')).ipConfigurations[0].properties.privateIPAddress, ' ',reference(variables('nic5Name')).ipConfigurations[0].properties.privateIPAddress)]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm2Name'),'/installnginxphp')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm2Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_nginx_php.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/backend_nginx.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh install_nginx_php.sh"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vm3Name'),'/installnginxphp')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vm3Name'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[uri(parameters('_artifactsLocation'), 'scripts/install_nginx_php.sh')]",
+            "[uri(parameters('_artifactsLocation'), 'conf/backend_nginx.conf')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "sh install_nginx_php.sh"
+        }
+      }
+    }
   ]
 }
