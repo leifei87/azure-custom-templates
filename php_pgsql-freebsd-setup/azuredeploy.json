@@ -66,7 +66,7 @@
     },	
     "numberOfDataDisks": {
       "type": "int",
-      "defaultValue": "16",
+      "defaultValue": 16,
       "maxValue": 64,
       "metadata": {
         "description": "Number of attached data disk"
@@ -74,7 +74,7 @@
     },
     "sizeOfDataDisksInGB": {
       "type": "int",
-      "defaultValue": "30",
+      "defaultValue": 30,
       "maxValue": 1023,
       "metadata": {
         "description": "Size of attached data disk"
