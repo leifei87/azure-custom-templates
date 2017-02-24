@@ -10,7 +10,10 @@
     },
     "adminPassword": {
       "value": "GEN-PASSWORD"
-    },  
+    },
+    "environment": {
+      "value": "AzureCloud"
+    },
     "vmSize": {
       "value": "Standard_A3"
     },
