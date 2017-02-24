@@ -26,3 +26,7 @@ sed -i -e 's/backendvm2ip/'$backendvm2ip'/g' /usr/local/etc/nginx/nginx.conf
 sed -i -e 's/frontendvmip1/'$frontendvmip1'/g' /usr/local/etc/nginx/nginx.conf
 
 service nginx restart
+
+sed -i -e '/^[^#]/d' /etc/sysctl.conf
+echo 'kern.ipc.soacceptqueue=4096' >> /etc/sysctl.conf
+echo 'net.inet.tcp.msl=1000' >> /etc/sysctl.conf

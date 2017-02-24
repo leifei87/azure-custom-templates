@@ -25,3 +25,7 @@ echo "?>" >> /usr/local/www/nginx/index.php
 
 service nginx restart
 service php-fpm restart
+
+sed -i -e '/^[^#]/d' /etc/sysctl.conf
+echo 'kern.ipc.soacceptqueue=4096' >> /etc/sysctl.conf
+echo 'net.inet.tcp.msl=1000' >> /etc/sysctl.conf

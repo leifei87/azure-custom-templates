@@ -2,10 +2,10 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vmName": {
+    "vmNamePrefix": {
       "type": "string",
       "metadata": {
-        "description": "Name for the Virtual Machine."
+        "description": "Prefix Name for the Virtual Machine."
       }
     },
     "adminUsername": {
@@ -51,7 +51,7 @@
     },
     "_artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/leifei87/azure-quickstart-templates/master/php_pgsql-freebsd-setup/",
+      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/php_pgsql-freebsd-setup/",
       "metadata": {
         "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
       }
@@ -84,13 +84,13 @@
     },
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(parameters('vmName')), 'storage')]",
-    "dataDisk1VhdName": "[concat(uniquestring(parameters('vmName')), 'datadisk1')]",
-    "OSDiskName": "[concat(uniquestring(parameters('vmName')), 'osdisk')]",
-	"vm1Name": "[concat(parameters('vmName'), '-frontend')]",
-	"vm2Name": "[concat(parameters('vmName'), '-php1')]",
-	"vm3Name": "[concat(parameters('vmName'), '-php2')]",
-	"vm4Name": "[concat(parameters('vmName'), '-postgresql')]",
+    "storageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'storage')]",
+    "dataDisk1VhdName": "[concat(uniquestring(parameters('vmNamePrefix')), 'datadisk1')]",
+    "OSDiskName": "[concat(uniquestring(parameters('vmNamePrefix')), 'osdisk')]",
+    "vm1Name": "[concat(parameters('vmNamePrefix'), '-frontend')]",
+    "vm2Name": "[concat(parameters('vmNamePrefix'), '-php1')]",
+    "vm3Name": "[concat(parameters('vmNamePrefix'), '-php2')]",
+    "vm4Name": "[concat(parameters('vmNamePrefix'), '-postgresql')]",
     "imagePublisher": "MicrosoftOSTC",
     "imageOffer": "FreeBSD",
     "nic1Name": "[concat(variables('vm1Name'), 'nic1')]",
@@ -107,7 +107,7 @@
     "subnet2Prefix": "10.0.1.0/24",
     "subnet3Name": "Subnet-3",
     "subnet3Prefix": "10.0.2.0/24",
-    "publicIPAddressName": "[concat(uniquestring(parameters('vmName')), 'publicip')]",
+    "publicIPAddressName": "[concat(uniquestring(parameters('vmNamePrefix')), 'publicip')]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "virtualNetworkName": "MyVNET",
@@ -120,7 +120,7 @@
         "name": "datadisk1",
         "lun": 0,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk1.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk1.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -130,7 +130,7 @@
         "name": "datadisk2",
         "lun": 1,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk2.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk2.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -140,7 +140,7 @@
         "name": "datadisk3",
         "lun": 2,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk3.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk3.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -150,7 +150,7 @@
         "name": "datadisk4",
         "lun": 3,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk4.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk4.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -160,7 +160,7 @@
         "name": "datadisk5",
         "lun": 4,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk5.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk5.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -170,7 +170,7 @@
         "name": "datadisk6",
         "lun": 5,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk6.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk6.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -180,7 +180,7 @@
         "name": "datadisk7",
         "lun": 6,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk7.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk7.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -190,7 +190,7 @@
         "name": "datadisk8",
         "lun": 7,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk8.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk8.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -200,7 +200,7 @@
         "name": "datadisk9",
         "lun": 8,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk9.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk9.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -210,7 +210,7 @@
         "name": "datadisk10",
         "lun": 9,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk10.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk10.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -220,7 +220,7 @@
         "name": "datadisk11",
         "lun": 10,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk11.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk11.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -230,7 +230,7 @@
         "name": "datadisk12",
         "lun": 11,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk12.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk12.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -240,7 +240,7 @@
         "name": "datadisk13",
         "lun": 12,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk13.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk13.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -250,7 +250,7 @@
         "name": "datadisk14",
         "lun": 13,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk14.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk14.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -260,7 +260,7 @@
         "name": "datadisk15",
         "lun": 14,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk15.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk15.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -270,7 +270,7 @@
         "name": "datadisk16",
         "lun": 15,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk16.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk16.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -280,7 +280,7 @@
         "name": "datadisk17",
         "lun": 16,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk17.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk17.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -290,7 +290,7 @@
         "name": "datadisk18",
         "lun": 17,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk18.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk18.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -300,7 +300,7 @@
         "name": "datadisk19",
         "lun": 18,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk19.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk19.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -310,7 +310,7 @@
         "name": "datadisk20",
         "lun": 19,
         "vhd": {
-          "uri": "[concat('http://', variables('storageAccountName'),'.blob.core.windows.net/vhds/', 'datadisk20.vhd')]"
+          "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, 'vhds/datadisk20.vhd')]"
         },
         "createOption": "Empty",
         "caching": "[parameters('diskCaching')]",
@@ -992,19 +992,13 @@
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic1Name'))]",
-			  "properties": { "primary": true }
+              "properties": { "primary": true }
             },
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic2Name'))]",
-			  "properties": { "primary": false }
+              "properties": { "primary": false }
             }
           ]
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": "true",
-            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob]"
-          }
         }
       }
     },
@@ -1149,12 +1143,6 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic7Name'))]"
             }
           ]
-        },
-        "diagnosticsProfile": {
-          "bootDiagnostics": {
-            "enabled": "true",
-            "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob]"
-          }
         }
       }
     },

@@ -9,6 +9,7 @@ install_postgresql_service() {
 		chown -R pgsql:pgsql /stripe/
 		su pgsql -c '/usr/local/bin/initdb -D /stripe/postgres/data/'
 		sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /stripe/postgres/data/postgresql.conf
+		echo 'host    all             all             0.0.0.0/0               md5' >> /stripe/postgres/data/pg_hba.conf
 	fi
 	echo "Done installing PostgreSQL..."
 }
@@ -19,7 +20,8 @@ install_pgbouncer_service() {
 	if [ $? == 0 ];then
 		echo 'pgbouncer_enable="yes"' >> /etc/rc.conf
 
-		echo 'kern.ipc.shm_use_phys=1' > /etc/sysctl.conf
+		sed -i -e '/^[^#]/d' /etc/sysctl.conf
+		echo 'kern.ipc.shm_use_phys=1' >> /etc/sysctl.conf
 		echo 'kern.ipc.shmmax=6442450944' >> /etc/sysctl.conf
 		echo 'kern.ipc.soacceptqueue=4096' >> /etc/sysctl.conf
 		echo 'net.inet.tcp.msl=1000' >> /etc/sysctl.conf
@@ -34,12 +36,12 @@ install_pgbouncer_service() {
 }
 
 setup_datadisks(){
-datadisks=''
-for i in $(seq 2 $(($numofdisks+1)))
-do
-	temp=" /dev/da$i"
-	datadisks=${datadisks}${temp}
-done
+	datadisks=''
+	for i in $(seq 2 $(($numofdisks+1)))
+		do
+			temp=" /dev/da$i"
+			datadisks=${datadisks}${temp}
+	done
 
 	kldload geom_stripe
 	gstripe label -v st0 $datadisks 
