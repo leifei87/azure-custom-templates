@@ -127,7 +127,7 @@
     "subnet3Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet3Name'))]",
     "blobUriAzureCloud": ".blob.core.windows.net",
     "blobUriAzureChinaCloud": ".blob.core.chinacloudapi.cn",
-    "blobUri": "[variables(concat('coreUri', parameters('environment')))]",
+    "blobUri": "[variables(concat('blobUri', parameters('environment')))]",
     "diskArray": [
       {
         "name": "datadisk1",
