@@ -21,6 +21,10 @@ install_pgbouncer_service() {
 	echo "Start installing pgbouncer..."
 	pkg install -y pgbouncer
 	if [ $? == 0 ];then
+		echo 'kern.ipc.semmni=512' >> /boot/loader.conf
+		echo 'kern.ipc.semmns=1024' >> /boot/loader.conf
+		echo 'kern.ipc.semmnu=512' >> /boot/loader.conf
+
 		echo 'pgbouncer_enable="yes"' >> /etc/rc.conf
 
 		sed -i -e '/^[^#]/d' /etc/sysctl.conf
@@ -29,10 +33,6 @@ install_pgbouncer_service() {
 		echo 'kern.ipc.soacceptqueue=4096' >> /etc/sysctl.conf
 		echo 'net.inet.tcp.msl=1000' >> /etc/sysctl.conf
 
-		echo 'kern.ipc.semmni=512' >> /boot/loader.conf
-		echo 'kern.ipc.semmns=1024' >> /boot/loader.conf
-		echo 'kern.ipc.semmnu=512' >> /boot/loader.conf
-		
 		cp ./pgbouncer.ini /usr/local/etc/pgbouncer.ini		
 	fi
 	echo "Done installing pgbouncer..."
@@ -69,4 +69,5 @@ service pgbouncer restart
 
 install_postgresql_service
 
-service postgresql start
+echo "/sbin/reboot" | at + 1 minute
+
