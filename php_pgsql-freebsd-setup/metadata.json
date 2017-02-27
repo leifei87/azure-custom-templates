@@ -1,7 +1,7 @@
 {
-  "itemDisplayName": "Simple template for create a basic VM",
-  "description": "This template will deploy four FreeBSD VMs for performance test",
-  "summary": "This template will deploy four FreeBSD VMs for performance test",
+  "itemDisplayName": "FreeBSD PHP based web site",
+  "description": "This template will deploy four FreeBSD VMs for PHP based web site",
+  "summary": "This template will deploy four FreeBSD VMs for PHP based web site",
   "githubUsername": "leifei87",
   "dateUpdated": "2017-02-16"
 }
