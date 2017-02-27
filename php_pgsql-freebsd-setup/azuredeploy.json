@@ -108,8 +108,8 @@
     },
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'storage')]",
-    "postgresqlstorageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'postgresqlstorage')]",
+    "storageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'storage1')]",
+    "postgresqlstorageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'storage2')]",
     "dataDisk1VhdName": "[concat(uniquestring(parameters('vmNamePrefix')), 'datadisk1')]",
     "OSDiskName": "[concat(uniquestring(parameters('vmNamePrefix')), 'osdisk')]",
     "vm1Name": "[concat(parameters('vmNamePrefix'), '-frontend')]",
@@ -804,7 +804,7 @@
       "properties": {
         "accountType": "[parameters('postgresqlstorageAccountType')]"
       }
-    }
+    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
