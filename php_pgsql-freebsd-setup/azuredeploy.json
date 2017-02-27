@@ -20,14 +20,14 @@
       "metadata": {
         "description": "Password for the Virtual Machine."
       }
-    },	
+    },
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_A4",
       "metadata": {
         "description": "Size for the Virtual Machine."
       }
-     },
+    },
     "environment": {
       "type": "string",
       "defaultValue": "AzureCloud",
@@ -63,7 +63,7 @@
       "metadata": {
         "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
       }
-    },	
+    },
     "numberOfDataDisks": {
       "type": "int",
       "defaultValue": 16,
@@ -86,7 +86,7 @@
       "allowedValues": [
         "None",
         "ReadOnly",
-        "ReadWrite"		
+        "ReadWrite"
       ],
       "metadata": {
         "description": "Caching type of data disk"
@@ -769,7 +769,7 @@
         "caching": "[parameters('diskCaching')]",
         "diskSizeGB": "[parameters('sizeOfDataDisksInGB')]"
       }
-    ]	
+    ]
   },
   "resources": [
     {
@@ -890,7 +890,8 @@
           }
         ]
       }
-    },    {
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nic4Name')]",
@@ -910,7 +911,8 @@
           }
         ]
       }
-    },    {
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nic5Name')]",
@@ -930,7 +932,8 @@
           }
         ]
       }
-    },    {
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nic6Name')]",
@@ -950,7 +953,8 @@
           }
         ]
       }
-    },    {
+    },
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nic7Name')]",
@@ -970,7 +974,7 @@
           }
         ]
       }
-    },	
+    },
     {
       "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/virtualMachines",
@@ -1005,11 +1009,15 @@
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic1Name'))]",
-              "properties": { "primary": true }
+              "properties": {
+                "primary": true
+              }
             },
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic2Name'))]",
-              "properties": { "primary": false }
+              "properties": {
+                "primary": false
+              }
             }
           ]
         }
@@ -1049,11 +1057,15 @@
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic3Name'))]",
-			  "properties": { "primary": true }
+              "properties": {
+                "primary": true
+              }
             },
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic4Name'))]",
-			  "properties": { "primary": false }
+              "properties": {
+                "primary": false
+              }
             }
           ]
         },
@@ -1099,11 +1111,15 @@
           "networkInterfaces": [
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic5Name'))]",
-			  "properties": { "primary": true }
+              "properties": {
+                "primary": true
+              }
             },
             {
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nic6Name'))]",
-			  "properties": { "primary": false }
+              "properties": {
+                "primary": false
+              }
             }
           ]
         },
@@ -1255,6 +1271,6 @@
           "commandToExecute": "[concat('sh install_postgresql.sh ', parameters('numberOfDataDisks'))]"
         }
       }
-    }    
+    }
   ]
 }
