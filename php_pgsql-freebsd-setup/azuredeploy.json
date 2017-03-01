@@ -2,6 +2,12 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "dnsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
+      }
+    },
     "vmNamePrefix": {
       "type": "string",
       "metadata": {
@@ -105,7 +111,7 @@
       "metadata": {
         "description": "Caching type of data disk"
       }
-    },
+    }
   },
   "variables": {
     "storageAccountName": "[concat(uniquestring(parameters('vmNamePrefix')), 'storage1')]",
@@ -811,7 +817,10 @@
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsName')]"
+        }
       }
     },
     {
